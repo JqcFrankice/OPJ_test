@@ -16,7 +16,7 @@ func main() {
 	fmt.Printf("开始压测: VUs=%d, Target QPS=%d, 持续时间=%v\n", vus, qps, duration)
 
 	// 运行场景
-	engine.Run(vus, qps, duration, scenarios.ExampleScenario)
+	engine.Run(vus, qps, duration, scenarios.AddRandomItemScenario)
 
 	fmt.Println("压测结束")
 }

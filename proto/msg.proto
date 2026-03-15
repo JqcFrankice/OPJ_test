@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package pb;
-option go_package = "game_server/api/pb";
+option go_package = "k6-game-test/proto/pb";
 
 // MsgID 定义了所有可能的消息类型
 enum MsgID {
