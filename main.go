@@ -8,14 +8,16 @@ import (
 )
 
 func main() {
-	// 配置压测参数
-	vus := 50                    // 并发虚拟用户数
-	duration := 10 * time.Second // 持续时间
+	// 根据您的要求进行配置
+	// DAU=10 (每日活跃用户，在此处体现为并发虚拟用户数 VUs)
+	// QPS=10 (每秒查询数，即所有用户每秒总共发起 10 次请求)
+	// 持续 1 分钟
+	vus := 10
+	duration := 1 * time.Minute
 
-	fmt.Printf("开始压测: VUs=%d, 持续时间=%v\n", vus, duration)
+	fmt.Printf("开始压测: VUs=%d, QPS=10, 持续时间=%v\n", vus, duration)
 
 	// 运行场景
-	// 注意：您需要在 scenarios 包中实现 LoginScenario 或其他具体测试函数
 	engine.Run(vus, duration, scenarios.ExampleScenario)
 
 	fmt.Println("压测结束")
