@@ -1,0 +1,109 @@
+syntax = "proto3";
+
+package pb;
+option go_package = "game_server/api/pb";
+
+// MsgID 定义了所有可能的消息类型
+enum MsgID {
+    MsgID_UNKNOWN = 0;
+    
+    // Auth & Account
+    MsgID_REGISTER_REQ = 1001;
+    MsgID_REGISTER_RSP = 1002;
+    MsgID_LOGIN_REQ = 1003;
+    MsgID_LOGIN_RSP = 1004;
+
+    // Game Logic
+    MsgID_ECHO_REQ = 2001; // 用于压测测试的简单Echo
+    MsgID_ECHO_RSP = 2002;
+    
+    MsgID_GET_USER_INFO_REQ = 2003;
+    MsgID_GET_USER_INFO_RSP = 2004;
+
+    // Backpack
+    MsgID_GET_ITEM_REQ = 3001;
+    MsgID_GET_ITEM_RSP = 3002;
+    MsgID_DISCARD_ITEM_REQ = 3003;
+    MsgID_DISCARD_ITEM_RSP = 3004;
+}
+
+// 物品结构
+message Item {
+    int32 id = 1;
+    int32 type = 2;
+    int32 count = 3;
+}
+
+// 获取道具
+message GetItemReq {
+    int32 item_id = 1;
+    int32 item_type = 2;
+    int32 count = 3;
+}
+
+message GetItemRsp {
+    BaseResponse base = 1;
+}
+
+// 扔掉道具
+message DiscardItemReq {
+    int32 item_id = 1;
+    int32 item_type = 2;
+    int32 count = 3;
+}
+
+message DiscardItemRsp {
+    BaseResponse base = 1;
+}
+
+// 基础响应结构 (常用于 HTTP API 的通用返回)
+message BaseResponse {
+    int32 code = 1;      // 0表示成功，非0表示错误码
+    string message = 2;  // 错误信息
+}
+
+// 注册请求
+message RegisterReq {
+    string username = 1;
+    string password = 2; // 明文或前端hash后的密码
+}
+
+message RegisterRsp {
+    BaseResponse base = 1;
+    int64 user_id = 2;
+}
+
+// 登录请求
+message LoginReq {
+    string username = 1;
+    string password = 2;
+}
+
+message LoginRsp {
+    BaseResponse base = 1;
+    int64 user_id = 2;
+    string token = 3; // JWT Token，用于后续HTTP请求或TCP断线重连
+}
+
+// 测试/压测用的Echo消息
+message EchoReq {
+    string content = 1;
+    int64 timestamp = 2; // 用于计算延迟
+}
+
+message EchoRsp {
+    string content = 1;
+    int64 timestamp = 2; // 原样返回，方便客户端计算RTT
+}
+
+// 获取用户信息
+message GetUserInfoReq {
+    int64 user_id = 1; // 如果为空，则获取当前token对应用户
+}
+
+message GetUserInfoRsp {
+    BaseResponse base = 1;
+    int64 user_id = 2;
+    string username = 3;
+    int64 register_time = 4;
+}
