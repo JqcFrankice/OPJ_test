@@ -10,8 +10,8 @@ import (
 
 // AddRandomItemScenario 发送一次随机道具增加请求
 func AddRandomItemScenario() {
-	// 1. 建立 TCP 连接
-	conn, err := stdnet.Dial("tcp", "127.0.0.1:8080")
+	// 1. 建立 TCP 连接 (修改为 8999 端口)
+	conn, err := stdnet.Dial("tcp", "127.0.0.1:8999")
 	if err != nil {
 		return
 	}

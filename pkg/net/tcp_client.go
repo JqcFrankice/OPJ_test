@@ -14,9 +14,14 @@ func SendProtoMsg(conn net.Conn, msgID uint32, message proto.Message) error {
 	}
 
 	// 封包协议: 4字节总长度 + 4字节MsgID + 数据体
+	// 注意：大多数游戏服务器使用 LittleEndian，请务必与服务端确认！
+	dataLen := uint32(len(data) + 4)
+
 	buf := make([]byte, 8+len(data))
-	binary.BigEndian.PutUint32(buf[0:4], uint32(len(data)+4))
-	binary.BigEndian.PutUint32(buf[4:8], msgID)
+
+	// 使用 LittleEndian 写入 (如果是 Zinx 默认协议)
+	binary.LittleEndian.PutUint32(buf[0:4], dataLen)
+	binary.LittleEndian.PutUint32(buf[4:8], msgID)
 	copy(buf[8:], data)
 
 	_, err = conn.Write(buf)
