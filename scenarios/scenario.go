@@ -19,10 +19,32 @@ func AddRandomItemScenario() {
 	defer conn.Close()
 
 	// 2. 构造随机请求数据
+	// 根据 config/items.json，ID 范围是 1-10
+	itemID := int32(rand.Intn(10) + 1)
+
+	// 简单的类型映射逻辑
+	var itemType int32 = 1
+	switch {
+	case itemID <= 2:
+		itemType = 1
+	case itemID <= 4:
+		itemType = 2
+	case itemID <= 6:
+		itemType = 3
+	case itemID == 7:
+		itemType = 4
+	case itemID == 8:
+		itemType = 5
+	case itemID == 9:
+		itemType = 6
+	case itemID == 10:
+		itemType = 7
+	}
+
 	req := &pb.GetItemReq{
-		ItemId:   rand.Int31n(100),
-		ItemType: rand.Int31n(5),
-		Count:    rand.Int31n(10) + 1,
+		ItemId:   itemID,
+		ItemType: itemType,
+		Count:    1,
 	}
 
 	// 3. 发送消息 (假设 MsgID_GET_ITEM_REQ = 3001)
