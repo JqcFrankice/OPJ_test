@@ -6,6 +6,7 @@ import (
 	"k6-game-test/proto/pb"
 	"math/rand"
 	stdnet "net"
+	"time"
 )
 
 // AddRandomItemScenario 发送一次随机道具增加请求
@@ -31,4 +32,7 @@ func AddRandomItemScenario() {
 	} else {
 		fmt.Println("成功触发随机道具增加场景")
 	}
+
+	// 等待3秒
+	time.Sleep(3 * time.Second)
 }

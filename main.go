@@ -9,8 +9,8 @@ import (
 
 func main() {
 	// 配置参数拆分
-	vus := 10 // 并发数 (Concurrency: 10个用户同时在线)
-	qps := 10 // 吞吐量 (Throughput: 每秒处理10个请求)
+	vus := 1 // 并发数
+	qps := 1 // 吞吐量 (设置较大以避免阻塞，由场景内 Sleep 控制频率)
 	duration := 1 * time.Minute
 
 	fmt.Printf("开始压测: VUs=%d, Target QPS=%d, 持续时间=%v\n", vus, qps, duration)
